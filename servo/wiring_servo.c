@@ -1,4 +1,22 @@
-#include "test_header.h"
+#include <stdio.h>
+#include <stdlib.h>
+#include <pthread.h>
+#include <wiringPi.h>
+#include <softPwm.h> 
+#include <pigpiod_if2.h>
+
+typedef enum {false, true} bool; 
+
+#define RIGHT_SERVO 29
+#define LEFT_SERVO 28
+#define FRONT_SERVO 27
+#define BACK_SERVO 26
+int servoMove(int);
+void* servoThreadRun (void *);
+void init_servo_thread();
+
+bool servoThreadFlag;
+int servoOption;
 
 int servoMove(int op)
 {
@@ -17,16 +35,28 @@ int servoMove(int op)
 
     switch (op)
     {
-        case 1: softPwmWrite(BACK_SERVO, 3);  time_sleep(1);
+        case 1: softPwmWrite(BACK_SERVO, 7);  time_sleep(1);
                 softPwmWrite(FRONT_SERVO,12); break; // upwards moving.  
-        case 2: softPwmWrite(FRONT_SERVO, 3); time_sleep(1); 
+        case 2: softPwmWrite(FRONT_SERVO, 7); time_sleep(1); 
                 softPwmWrite(BACK_SERVO,12); break; // downward moving.  
-        case 3: softPwmWrite(RIGHT_SERVO, 3); time_sleep(1);
+        case 3: softPwmWrite(RIGHT_SERVO, 7); time_sleep(1);
                 softPwmWrite(LEFT_SERVO,12); break; // leftward moving.  
-        case 4: softPwmWrite(LEFT_SERVO, 3); time_sleep(1);
+        case 4: softPwmWrite(LEFT_SERVO, 7); time_sleep(1);
                 softPwmWrite(RIGHT_SERVO,12); break; // rightward moving.            
     }
     return 1;
+}
+
+int main()
+{
+    for (;;)
+    {
+     int op;
+     scanf ("%d", &op);
+     printf ("option : %d\n", op);
+     servoMove(op);
+     memset (&op, 0, sizeof(int));
+    }
 }
 
 void* servoThreadRun (void *data)
