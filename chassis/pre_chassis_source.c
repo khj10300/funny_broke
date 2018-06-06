@@ -1,8 +1,4 @@
 #include "chassis_header.h"
-
-#include <wiringPi.h>
-#include <softPwm.h>
-
 int pi;
 
 

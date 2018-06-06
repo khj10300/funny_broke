@@ -27,14 +27,6 @@ int servoMove(int op)
         return -1;
     }
     */
-
-     if(wiringPiSetup()==-1)
-        return -1;
-    softPwmCreate(RIGHT_SERVO, 0, 200);
-    softPwmCreate(LEFT_SERVO, 0, 200);
-    softPwmCreate(FRONT_SERVO, 0, 200);
-    softPwmCreate(BACK_SERVO, 0, 200);
-
     switch (op)
     {
         case 1: softPwmWrite(BACK_SERVO, 7);  time_sleep(1);
@@ -63,6 +55,13 @@ int main()
 
 void* servoThreadRun (void *data)
 {
+    if(wiringPiSetup()==-1)
+        return -1;
+    softPwmCreate(RIGHT_SERVO, 0, 200);
+    softPwmCreate(LEFT_SERVO, 0, 200);
+    softPwmCreate(FRONT_SERVO, 0, 200);
+    softPwmCreate(BACK_SERVO, 0, 200);
+    
     servoThreadFlag = false;
     while (1) 
     {
