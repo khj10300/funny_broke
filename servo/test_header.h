@@ -4,8 +4,7 @@
 #include <wiringPi.h>
 #include <softPwm.h> 
 #include <pigpiod_if2.h>
-
-typedef enum {false, true} bool; 
+#include <stdbool>
 
 #define RIGHT_SERVO 29
 #define LEFT_SERVO 28

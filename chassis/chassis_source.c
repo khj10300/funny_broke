@@ -9,7 +9,7 @@ moveStop(int pi)
 	gpio_write (pi, GPIO6, PI_LOW);
 	gpio_write (pi, GPIO13, PI_LOW);
 	gpio_write (pi, GPIO19, PI_LOW);
-    time_sleep(1);
+    time_sleep(1.2);
 }
 void 
 moveBack(int pi)
@@ -18,7 +18,7 @@ moveBack(int pi)
 	gpio_write(pi, GPIO13, PI_LOW);
 	gpio_write(pi, GPIO6, PI_LOW);
 	gpio_write(pi, GPIO5, PI_HIGH);
-	time_sleep(1);
+	time_sleep(1.2);
 	gpio_write(pi, GPIO19, PI_LOW);
 	gpio_write(pi, GPIO5, PI_LOW);
 }
@@ -73,7 +73,7 @@ goForward(int pi)
 	gpio_write(pi, GPIO6, PI_HIGH);
 	gpio_write(pi, GPIO5, PI_LOW);
 	setPwm(pi, PWMVAL, 0);
-	time_sleep(0.4);
+	time_sleep(0.8);
     resetPwm(pi);
 	gpio_write(pi, GPIO13, PI_LOW);
 	gpio_write(pi, GPIO6, PI_LOW);
@@ -86,7 +86,7 @@ goBackward(int pi)
 	gpio_write(pi, GPIO6, PI_LOW);
 	gpio_write(pi, GPIO5, PI_HIGH);
 	setPwm(pi, PWMVAL, 1);
-	time_sleep(0.5);
+	time_sleep(0.8);
     resetPwm(pi);
 	gpio_write(pi, GPIO13, PI_LOW);
 	gpio_write(pi, GPIO6, PI_LOW);
@@ -131,9 +131,9 @@ resetPwm(int pi)
 void
 getItem_1(int pi)
 {
-    turnR(pi, 0.3);
+    turnR(pi, 0.6);
     goForward(pi);
-    turnL(pi, 0.3);
+    turnL(pi, 0.6);
     goForward(pi);
 }
 
@@ -147,9 +147,9 @@ getItem_2(int pi)
 void
 getItem_3(int pi)
 {
-    turnL(pi, 0.3);
+    turnL(pi, 0.6);
     goForward(pi);
-    turnR(pi, 0.3);
+    turnR(pi, 0.6);
     goForward(pi);
 }
 
@@ -157,10 +157,10 @@ void
 backFrom_1(int pi)
 {
     goBackward(pi);
-    turnL(pi, 0.5);
+    turnL(pi, 0.8);
     goForward(pi);
     goForward(pi);
-    backTurnL(pi, 0.5); 
+    backTurnL(pi, 0.8); 
     goBackward(pi);
     goBackward(pi);
 }
@@ -176,7 +176,7 @@ void
 backFrom_3(int pi)
 {
     goBackward(pi);
-    turnR(pi, 0.5);
+    turnR(pi, 0.8);
     goForward(pi);
     goForward(pi);
     backTurnR(pi, 0.5); 

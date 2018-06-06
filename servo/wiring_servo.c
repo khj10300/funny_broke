@@ -20,11 +20,13 @@ int servoOption;
 
 int servoMove(int op)
 {
+    /*
     if (!(op == 1 || op == 2 || op == 3 || op == 4))
     {
         fprintf (stderr, "invalid option number taek either 1 or 2\n");
         return -1;
     }
+    */
 
      if(wiringPiSetup()==-1)
         return -1;

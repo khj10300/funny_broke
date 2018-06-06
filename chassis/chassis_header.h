@@ -13,9 +13,9 @@
 
 #define FULLPWM 4096
 
-#define PWMVAL 2600
-#define rPWMVAL 2500 
-#define lPWMVAL 2600 
+#define PWMVAL 3000
+#define rPWMVAL 2800 
+#define lPWMVAL 2700 
 
 void moveBack (int);
 void moveStop (int);
