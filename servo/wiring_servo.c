@@ -25,16 +25,31 @@ int ServoMovePigpiod(int gpio, int degree);
 
 int servoMove(int op)
 {
+    if(wiringPiSetup()==-1)
+        return -1;
+    softPwmCreate(RIGHT_SERVO, 0, 200);
+    softPwmCreate(LEFT_SERVO, 0, 200);
+    softPwmCreate(FRONT_SERVO, 0, 200);
+    softPwmCreate(BACK_SERVO, 0, 200);
+
     switch (op)
     {
-        case 1: softPwmWrite(BACK_SERVO, 7);  time_sleep(1);
-                softPwmWrite(FRONT_SERVO,12); break; // upwards moving.  
-        case 2: softPwmWrite(FRONT_SERVO, 7); time_sleep(1); 
-                softPwmWrite(BACK_SERVO,12); break; // downward moving.  
-        case 3: softPwmWrite(RIGHT_SERVO, 7); time_sleep(1);
-                softPwmWrite(LEFT_SERVO,12); break; // leftward moving.  
-        case 4: softPwmWrite(LEFT_SERVO, 7); time_sleep(1);
-                softPwmWrite(RIGHT_SERVO,12); break; // rightward moving.            
+        case 1:
+                //softPwmWrite(BACK_SERVO, 0); // time_sleep(1);
+                softPwmWrite(FRONT_SERVO, 10);
+                break; // upwards moving.  
+        case 2:
+              //softPwmWrite(BACK_SERVO, 24); 
+                softPwmWrite(FRONT_SERVO, 16); //time_sleep(1); 
+                break; // downward moving.  
+        case 3: 
+                  softPwmWrite(RIGHT_SERVO, 8); //time_sleep(1);
+   //             softPwmWrite(LEFT_SERVO,12);
+                break; // leftward moving.  
+        case 4:
+      //          softPwmWrite(LEFT_SERVO, 48); //time_sleep(1);
+                softPwmWrite(RIGHT_SERVO, 16); 
+                break; // rightward moving.            
     }
     return 1;
 }
@@ -43,7 +58,6 @@ int servoMove(int op)
 
 int main()
 {
-    /*
     for (;;)
     {
      int op;
@@ -52,30 +66,8 @@ int main()
      servoMove(op);
      memset (&op, 0, sizeof(int));
     }
-    */
-    InitPigpiod();
-
-    while (1)
-    {
-        int op=0;
-        scanf ("%d", &op);
-        printf ("op : %d\n", op);
-        switch (op)
-        {
-            case 1: ServoMovePigpiod (BACK_SERVO, 0); time_sleep(1);
-                    ServoMovePigpiod (FRONT_SERVO, 90); break;
-            case 2: ServoMovePigpiod (FRONT_SERVO, 0); time_sleep (1);
-                    ServoMovePigpiod (BACK_SERVO, 90); break;
-                    
-            case 3: ServoMovePigpiod (RIGHT_SERVO, 0); time_sleep(1);
-                    ServoMovePigpiod (LEFT_SERVO, 90); break;
-
-            case 4: ServoMovePigpiod (LEFT_SERVO, 0); time_sleep (1);
-                    ServoMovePigpiod (RIGHT_SERVO, 90); break;        
-        }
-    }
-    pigpio_stop(pi); 
-
+    
+    return 0;
 }
 
 void* servoThreadRun (void *data)
@@ -119,6 +111,7 @@ void init_servo_thread()
 int ServoMovePigpiod(int gpio, int degree) 
 { 
     int pulse_width; 
+   
     
     if(degree >= 0 && degree <= 180)
     { 
