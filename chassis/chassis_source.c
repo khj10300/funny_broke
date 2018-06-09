@@ -72,15 +72,18 @@ turnR(int pi, float sleepTime)
 void 
 goForward(int pi)
 {
+	/*
 	gpio_write(pi, GPIO19, PI_LOW);
 	gpio_write(pi, GPIO13, PI_HIGH);
 	gpio_write(pi, GPIO6, PI_HIGH);
 	gpio_write(pi, GPIO5, PI_LOW);
-	setPwm(pi, PWMVAL, 0);
+	*/
+
+	softPwmWrite (GPIO19, 0);
+	softPwmWrite (GPIO13, 50);
 	time_sleep(0.8);
-    resetPwm(pi);
-	gpio_write(pi, GPIO13, PI_LOW);
-	gpio_write(pi, GPIO6, PI_LOW);
+    
+	softPwmWrite (GPIO13, 0);
 }
 void 
 goBackward(int pi)
@@ -94,42 +97,6 @@ goBackward(int pi)
     resetPwm(pi);
 	gpio_write(pi, GPIO13, PI_LOW);
 	gpio_write(pi, GPIO6, PI_LOW);
-}
-
-int
-setPwm(int pi, int val, int op)
-{
-	int range;
-	int default_range = 4096;
-
-	set_PWM_range(pi, GPIO5, default_range);
-	set_PWM_range(pi, GPIO6, default_range);
-	set_PWM_range(pi, GPIO13, default_range);
-	set_PWM_range(pi, GPIO19, default_range);
-
-	// gofoward(0) goBackward(1) turnR(2) turnL(3) 
-	switch (op)
-	{
-		case 0:	set_PWM_dutycycle(pi, GPIO6, val); set_PWM_dutycycle(pi, GPIO13, val);
-				break;
-		case 1:	set_PWM_dutycycle(pi, GPIO5, val); set_PWM_dutycycle(pi, GPIO13, val);
-				break;
-		case 2: set_PWM_dutycycle(pi, GPIO6, val); 
-				break;
-		case 3: set_PWM_dutycycle(pi, GPIO19, val);
-				break;
-	}
-	
-	return 0;
-}
-
-void
-resetPwm(int pi)
-{
-	set_PWM_dutycycle (pi, GPIO5, 0);
-	set_PWM_dutycycle (pi, GPIO6, 0);
-	set_PWM_dutycycle (pi, GPIO13, 0);
-	set_PWM_dutycycle (pi, GPIO19, 0);
 }
 
 void
@@ -189,6 +156,38 @@ backFrom_3(int pi)
     
 }
 
+int 
+main ()
+{
+	if(wiringPiSetup()==-1)
+        return -1;
+    softPwmCreate (GPIO5, 0, 100);
+	softPwmCreate (GPIO6, 0, 100);
+	softPwmCreate (GPIO13, 0, 100);
+	softPwmCreate (GPIO19, 0, 100);
+
+	int op;
+
+	while (1)
+	{
+		printf ("op : ");
+		scanf ("%d", &op);
+		getchar();
+		switch (chassisOption)
+    	{
+      	 	case 1: getItem_1(pi); break;
+       		case 2: getItem_2(pi); break;
+      		case 3: getItem_3(pi); break;
+        
+     	    case 4: backFrom_1(pi); break;
+       	    case 5: backFrom_2(pi); break;
+       		case 6: backFrom_3(pi); break;
+         	default : return 0;       
+    	}
+	} 
+}
+
+/*
 int 
 ChassisMove(int pi)
 {
@@ -262,3 +261,4 @@ init_chassis_thread()
 		exit(-1);
 	}
 }
+*/

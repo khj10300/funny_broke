@@ -5,10 +5,10 @@
 #include <pigpiod_if2.h>
 #include <unistd.h>
  
-#define GPIO19 19  //IN1 
-#define GPIO13 13 //IN2 13
-#define GPIO5 5	 //IN3 5
-#define GPIO6 6 //IN4
+#define IN1 24 // GPIO19 
+#define IN2 23 // GPIO13
+#define IN3 21 // GPIO5
+#define IN4 22 // GPIO6
 
 
 #define FULLPWM 4096
