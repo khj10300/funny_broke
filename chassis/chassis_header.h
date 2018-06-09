@@ -10,30 +10,21 @@
 #define IN3 21 // GPIO5
 #define IN4 22 // GPIO6
 
+void backTurnL (float);
+void turnL (float);
+void backTurnR (float);
+void turnR (float);
 
-#define FULLPWM 4096
-
-#define PWMVAL 3000
-#define rPWMVAL 2800 
-#define lPWMVAL 2700 
-
-void moveBack (int);
-void moveStop (int);
-void backTurnL (int, float);
-void turnL (int, float);
-void backTurnR(int, float);
-void turnR(int,float);
 void goForward(int);
 void goBackward(int);
-int setPwm(int, int, int);
-void resetPwm(int);
-void getItem_1(int);
-void getItem_2(int);
-void getItem_3(int);
 
-void backFrom_1(int);
-void backFrom_2(int);
-void backFrom_3(int);
+void getItem_1();
+void getItem_2();
+void getItem_3();
+
+void backFrom_1();
+void backFrom_2();
+void backFrom_3();
 
 int ChassisMove(int);
 void* ChassisThreadRun (void *);

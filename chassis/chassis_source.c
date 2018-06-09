@@ -3,156 +3,133 @@
 #include <wiringPi.h>
 #include <softPwm.h>
 
-int pi;
-
-
-void
-moveStop(int pi)
-{
-	gpio_write (pi, GPIO5, PI_LOW);
-	gpio_write (pi, GPIO6, PI_LOW);
-	gpio_write (pi, GPIO13, PI_LOW);
-	gpio_write (pi, GPIO19, PI_LOW);
-    time_sleep(1.2);
-}
-void 
-moveBack(int pi)
-{
-	gpio_write(pi, GPIO19, PI_HIGH);
-	gpio_write(pi, GPIO13, PI_LOW);
-	gpio_write(pi, GPIO6, PI_LOW);
-	gpio_write(pi, GPIO5, PI_HIGH);
-	time_sleep(1.2);
-	gpio_write(pi, GPIO19, PI_LOW);
-	gpio_write(pi, GPIO5, PI_LOW);
-}
+#define PWM_LOW 0 
+#define R_PWM_HIGH 65
+#define L_PWM_HIGH 70
 
 void
-backTurnL(int pi, float sleepTime)
+backTurnL (float sleepTime)
 {
-	gpio_write(pi, GPIO19, PI_HIGH);
-	gpio_write(pi, GPIO13, PI_LOW);
-	setPwm(pi, PWMVAL, 3);
+	softPwmWrite (IN1, R_PWM_HIGH );
+	softPwmWrite (IN2, PWM_LOW);
+	
 	time_sleep(sleepTime);
-    resetPwm(pi);
-	gpio_write(pi, GPIO19, PI_LOW);
+
+	softPwmWrite (IN1, PWM_LOW);
 }
 void
-turnL(int pi, float sleepTime)
+turnL (float sleepTime)
 {
-	gpio_write(pi, GPIO19, PI_LOW);
-	gpio_write(pi, GPIO13, PI_HIGH);
-	setPwm(pi, PWMVAL, 3);
+	softPwmWrite (IN1, PWM_LOW);
+	softPwmWrite (IN2, R_PWM_HIGH);
+	
 	time_sleep(sleepTime);
-    resetPwm(pi);
-	gpio_write(pi, GPIO19, PI_LOW);
+
+	softPwmWrite (IN2, PWM_LOW);
 }
 
 void
-backTurnR(int pi, float sleepTime)
+backTurnR (float sleepTime)
 {
-	gpio_write(pi, GPIO5, PI_HIGH);
-	gpio_write(pi, GPIO6, PI_LOW);
-	setPwm(pi, PWMVAL, 2);
+ 	softPwmWrite (IN3, L_PWM_HIGH);
+	softPwmWrite (IN4, PWM_LOW);
+
 	time_sleep(sleepTime);
-    resetPwm(pi);
-	gpio_write(pi, GPIO5, PI_LOW);
+
+	softPwmWrite (IN3, PWM_LOW);
 }
 void
-turnR(int pi, float sleepTime)
+turnR (float sleepTime)
 {
-	gpio_write(pi, GPIO5, PI_LOW);
-	gpio_write(pi, GPIO6, PI_HIGH);
-	setPwm(pi, PWMVAL, 2);
+ 	softPwmWrite (IN3, PWM_LOW);
+	softPwmWrite (IN4, L_PWM_HIGH);
+
 	time_sleep(sleepTime);
-    resetPwm(pi);
-	gpio_write(pi, GPIO6, PI_LOW);
+
+	softPwmWrite (IN4, PWM_LOW);
 }
 
 void 
-goForward(int pi)
-{
-	/*
-	gpio_write(pi, GPIO19, PI_LOW);
-	gpio_write(pi, GPIO13, PI_HIGH);
-	gpio_write(pi, GPIO6, PI_HIGH);
-	gpio_write(pi, GPIO5, PI_LOW);
-	*/
+goForward (int val)
+{	
+	softPwmWrite (IN3, PWM_LOW);
+	softPwmWrite (IN4, L_PWM_HIGH);
+	softPwmWrite (IN1, PWM_LOW);
+	softPwmWrite (IN2, R_PWM_HIGH);
 
-	softPwmWrite (GPIO19, 0);
-	softPwmWrite (GPIO13, 50);
-	time_sleep(0.8);
-    
-	softPwmWrite (GPIO13, 0);
+	time_sleep(1);
+
+	softPwmWrite (IN2, PWM_LOW);
+	softPwmWrite (IN4, PWM_LOW);
 }
 void 
-goBackward(int pi)
+goBackward (int val)
 {
-	gpio_write(pi, GPIO19, PI_HIGH);
-	gpio_write(pi, GPIO13, PI_LOW);
-	gpio_write(pi, GPIO6, PI_LOW);
-	gpio_write(pi, GPIO5, PI_HIGH);
-	setPwm(pi, PWMVAL, 1);
-	time_sleep(0.8);
-    resetPwm(pi);
-	gpio_write(pi, GPIO13, PI_LOW);
-	gpio_write(pi, GPIO6, PI_LOW);
+	softPwmWrite (IN1, R_PWM_HIGH);
+	softPwmWrite (IN2, PWM_LOW);
+	softPwmWrite (IN3, L_PWM_HIGH);
+	softPwmWrite (IN4, PWM_LOW);
+
+	time_sleep(1);
+
+	softPwmWrite (IN1, PWM_LOW);
+	softPwmWrite (IN3, PWM_LOW);
 }
 
 void
-getItem_1(int pi)
+getItem_1()
 {
-    turnR(pi, 0.6);
-    goForward(pi);
-    turnL(pi, 0.6);
-    goForward(pi);
+    turnR (0.6);
+    goForward ();
+    turnL (0.8);
+    goForward ();
 }
 
 void
-getItem_2(int pi)
+getItem_2()
 {
     for (int i=0; i<3;i++) 
-        goForward(pi);
+        goForward ();
 }
 
 void
-getItem_3(int pi)
+getItem_3()
 {
-    turnL(pi, 0.6);
-    goForward(pi);
-    turnR(pi, 0.6);
-    goForward(pi);
+    turnL (0.6);
+    goForward ();
+    turnR (0.6);
+    goForward ();
 }
 
 void
-backFrom_1(int pi)
+backFrom_1()
 {
-    goBackward(pi);
-    turnL(pi, 0.8);
-    goForward(pi);
-    goForward(pi);
-    backTurnL(pi, 0.8); 
-    goBackward(pi);
-    goBackward(pi);
+    goBackward ();
+    turnL (0.8);
+    goForward ();
+    goForward ();
+    backTurnL (0.8); 
+    goBackward ();
+    goBackward ();
 }
 
 void 
-backFrom_2(int pi)
+backFrom_2()
 {
     for (int i=0; i<3;i++) 
-        goBackward(pi);
+        goBackward ();
 }
 
 void 
-backFrom_3(int pi)
+backFrom_3()
 {
-    goBackward(pi);
-    turnR(pi, 0.8);
-    goForward(pi);
-    goForward(pi);
-    backTurnR(pi, 0.5); 
-    goBackward(pi);
-    goBackward(pi);
+    goBackward ();
+    turnR (0.8);
+    goForward ();
+    goForward ();
+    backTurnR (0.5); 
+    goBackward ();
+    goBackward ();
     
 }
 
@@ -161,10 +138,10 @@ main ()
 {
 	if(wiringPiSetup()==-1)
         return -1;
-    softPwmCreate (GPIO5, 0, 100);
-	softPwmCreate (GPIO6, 0, 100);
-	softPwmCreate (GPIO13, 0, 100);
-	softPwmCreate (GPIO19, 0, 100);
+    softPwmCreate (IN1, 0, 100);
+    softPwmCreate (IN2, 0, 100);
+    softPwmCreate (IN3, 0, 100);
+    softPwmCreate (IN4, 0, 100);
 
 	int op;
 
@@ -173,15 +150,24 @@ main ()
 		printf ("op : ");
 		scanf ("%d", &op);
 		getchar();
-		switch (chassisOption)
+		switch (op)
     	{
-      	 	case 1: getItem_1(pi); break;
-       		case 2: getItem_2(pi); break;
-      		case 3: getItem_3(pi); break;
-        
-     	    case 4: backFrom_1(pi); break;
-       	    case 5: backFrom_2(pi); break;
-       		case 6: backFrom_3(pi); break;
+      	 	case 1: 
+      	 			getItem_1 (pi); 
+      	 			time_sleep (1);
+      	 			backFrom_1 (pi);
+      	 			break;
+       		case 2: 
+       				getItem_2 (pi); 
+      	 			time_sleep (1);
+      	 			backFrom_2 (pi);
+      	 			break;
+      		case 3: 
+      				getItem_3 (pi); 
+      	 			time_sleep (1);
+      	 			backFrom_3 (pi);
+      	 			break;
+         	default : return 0;    
          	default : return 0;       
     	}
 	} 
