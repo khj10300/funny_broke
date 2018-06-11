@@ -5,37 +5,28 @@
 #include <pigpiod_if2.h>
 #include <unistd.h>
  
-#define GPIO19 19  //IN1 
-#define GPIO13 13 //IN2 13
-#define GPIO5 5	 //IN3 5
-#define GPIO6 6 //IN4
+#define IN1 24 // GPIO19 
+#define IN2 23 // GPIO13
+#define IN3 21 // GPIO5
+#define IN4 22 // GPIO6
 
+void backTurnL (float);
+void turnL (float);
+void backTurnR(float);
+void turnR(float);
 
-#define FULLPWM 4096
+void goForward (float);
+void goBackward (int,int, float);
 
-#define PWMVAL 3000
-#define rPWMVAL 2800 
-#define lPWMVAL 2700 
+void getItem_1();
+void getItem_2();
+void getItem_3();
 
-void moveBack (int);
-void moveStop (int);
-void backTurnL (int, float);
-void turnL (int, float);
-void backTurnR(int, float);
-void turnR(int,float);
-void goForward(int);
-void goBackward(int);
-int setPwm(int, int, int);
-void resetPwm(int);
-void getItem_1(int);
-void getItem_2(int);
-void getItem_3(int);
+void backFrom_1();
+void backFrom_2();
+void backFrom_3();
 
-void backFrom_1(int);
-void backFrom_2(int);
-void backFrom_3(int);
-
-int ChassisMove(int);
+int ChassisMove();
 void* ChassisThreadRun (void *);
 void init_chassis_thread();
 
