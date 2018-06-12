@@ -107,6 +107,32 @@ getItem_3()
     goForward (0.0);
 }
 
+void
+backFrom_1()
+{
+    goBackward (70,70, 0.0);
+    turnL (0.6);
+    goForward (0.6);
+    backTurnL (0.3); 
+    goBackward (80,90, 1.0);
+}
+
+void 
+backFrom_2()
+{
+    goBackward (PWM_FULL-10, PWM_FULL, 1.5);
+}
+
+void 
+backFrom_3()
+{
+    goBackward (70,70, 0.0);
+    turnR (0.6);
+    goForward (0.6);
+    backTurnR (0.7); 
+    goBackward (80,90, 0.5);
+}
+
 int 
 ChassisMove()
 {
@@ -118,15 +144,18 @@ ChassisMove()
     {
       	 	case 1: 
       	 			getItem_1 (); 
-
+      	 			time_sleep (1);
+      	 			backFrom_1 ();
       	 			break;
        		case 2: 
        				getItem_2 (); 
-
+      	 			time_sleep (1);
+      	 			backFrom_2 ();
       	 			break;
       		case 3: 
       				getItem_3 (); 
-
+      	 			time_sleep (1);
+      	 			backFrom_3 ();
       	 			break;
          	default : return 0;       
     }
