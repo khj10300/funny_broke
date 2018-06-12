@@ -86,8 +86,8 @@ int main(int argc, char *argv[])
             }else{
                 servoThreadFlag = true;
                 servoOption = buffer[0] - '0'; 
-                //printf("%s",buffer);
-                //        write(client_fd, buffer, msg_size);
+                printf("%s",buffer);
+                        write(client_fd, buffer, msg_size);
             }
         }
     }
