@@ -71,6 +71,8 @@ int main(int argc, char *argv[])
             exit(0);
         }
         inet_ntop(AF_INET, &client_addr.sin_addr.s_addr, temp, sizeof(temp));
+        digitThreadFlag = true;
+        ledThreadFlag = true;
         printf("Server : %s client connected.\n", temp);
         struct linger solinger = {1,0};
         if(setsockopt(client_fd,SOL_SOCKET,SO_LINGER, &solinger, sizeof(struct linger)) == -1)
@@ -81,6 +83,8 @@ int main(int argc, char *argv[])
             if(buffer[0] == '-'){
                 close(client_fd);
                 printf("Server : %s client closed.\n", temp);
+                digitThreadFlag = false;
+                ledThreadFlag = false;
     close(server_fd);
                 break;
             }else{

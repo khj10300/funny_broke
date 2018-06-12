@@ -1,53 +1,84 @@
-#include "test_header.h"
+#include <stdio.h>
+#include <stdlib.h>
+#include <pthread.h>
+#include <wiringPi.h>
+#include <softPwm.h> 
+#include <pigpiod_if2.h>
 
-int front_speed = 7;
-int back_speed = 7;
+typedef enum {false, true} bool; 
+
+#define RIGHT_SERVO 29
+#define LEFT_SERVO 28
+#define FRONT_SERVO 27
+#define BACK_SERVO 26
+int servoMove(int);
+void* servoThreadRun (void *);
+void init_servo_thread();
+
+bool servoThreadFlag;
+int servoOption;
+
+int pi; 
+void InitPigpiod ();
+int ServoMovePigpiod(int gpio, int degree);
+
 
 int servoMove(int op)
 {
-    if (!(op == 1 || op == 2 || op == 3 || op == 4))
-    {
-        fprintf (stderr, "invalid option number taek either 1 or 2\n");
+    if(wiringPiSetup()==-1)
         return -1;
-    }
-
-     if(wiringPiSetup()==-1)
-        return -1;
-    softPwmCreate(RIGHT_SERVO, 0, 200);
-    softPwmCreate(LEFT_SERVO, 0, 200);
-    softPwmCreate(FRONT_SERVO, 0, 200);
-    softPwmCreate(BACK_SERVO, 0, 200);
 
     switch (op)
     {
-        case 1: 
-              //softPwmWrite(BACK_SERVO, 7);  time_sleep(1);
-                softPwmWrite(FRONT_SERVO,10); 
+        case 1:
+                //softPwmWrite(BACK_SERVO, 0); // time_sleep(1);
+                softPwmWrite(FRONT_SERVO, 12);
                 break; // upwards moving.  
-        case 2: 
-                softPwmWrite(FRONT_SERVO, 16);  time_sleep(1); 
-                //softPwmWrite(BACK_SERVO, back_speed); 
-                time_sleep(1); 
+        case 2:
+              //softPwmWrite(BACK_SERVO, 24); 
+                softPwmWrite(FRONT_SERVO, 6); //time_sleep(1); 
                 break; // downward moving.  
-        case 3:
-                softPwmWrite(RIGHT_SERVO, 8); //time_sleep(1);
-                //softPwmWrite(LEFT_SERVO, 48);
-                time_sleep(1); 
+        case 3: 
+                  softPwmWrite(RIGHT_SERVO, 8); //time_sleep(1);
+   //             softPwmWrite(LEFT_SERVO,12);
                 break; // leftward moving.  
-        case 4: 
-             //   softPwmWrite(LEFT_SERVO, 24); time_sleep(1);
-                softPwmWrite(RIGHT_SERVO, 16);
-                time_sleep(1); 
+        case 4:
+      //          softPwmWrite(LEFT_SERVO, 48); //time_sleep(1);
+                softPwmWrite(RIGHT_SERVO, 16); 
                 break; // rightward moving.            
     }
     return 1;
 }
 
+
+/*
+int main()
+{
+    for (;;)
+    {
+     int op;
+     scanf ("%d", &op);
+     printf ("option : %d\n", op);
+     servoMove(op);
+     memset (&op, 0, sizeof(int));
+    }
+    
+    return 0;
+}
+*/
 void* servoThreadRun (void *data)
 {
+    if(wiringPiSetup()==-1)
+        return -1;
+    softPwmCreate(RIGHT_SERVO, 0, 100);
+    softPwmCreate(LEFT_SERVO, 0, 100);
+    softPwmCreate(FRONT_SERVO, 0, 100);
+    softPwmCreate(BACK_SERVO, 0, 100);
+    
     servoThreadFlag = false;
     while (1) 
     {
+        //printf("servo : %d\n", servoThreadFlag);
         if (servoThreadFlag == true)
         {
             printf ("%d\n", servoOption);
@@ -73,4 +104,5 @@ void init_servo_thread()
         exit(-1);
     }
 }
+
 

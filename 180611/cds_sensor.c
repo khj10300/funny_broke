@@ -38,6 +38,7 @@ uint8_t arr[] = {
 };
 
 int score, pi;
+bool digitThreadFlag;
 
 int read_mcp3208_adc(unsigned char adcChannel)
 {
@@ -257,17 +258,29 @@ void* cdsThreadRun(void *data)
 {
     set_mode(pi, DIGIT2, PI_OUTPUT);
     set_mode(pi, DIGIT1, PI_OUTPUT);
+    digitThreadFlag = false;
     while(1)
     {
-        cds_sensor();
+        //printf("digit : %d\n", digitThreadFlag);
+        if(digitThreadFlag == true){
+            cds_sensor();
+       //     digitThreadFlag = false;
+        }
         //calculate_score();
+        digitThreadFlag == false;
     }
 }
 
 void* calculateThreadRun(void *data)
 {
-    while(1)
-        calculate_score();
+    //digitThreadFlag = false;
+    while(1){
+        if(digitThreadFlag == true){
+            calculate_score();
+        //    digitThreadFlag = false;
+        }
+        digitThreadFlag == false;
+    }
 }
 
 void init_cds_thread(void)

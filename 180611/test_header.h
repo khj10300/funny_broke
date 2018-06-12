@@ -18,6 +18,8 @@ void init_servo_thread();
 
 bool servoThreadFlag;
 int servoOption;
+bool ledThreadFlag;
+bool digitThreadFlag;
 
 /*** CDS SENSOR ***/
 

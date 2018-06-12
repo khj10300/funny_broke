@@ -33,8 +33,11 @@ void ledbar_time(void)
 
 void *ledThreadRun(void *data)
 {
-    while(1)
-        ledbar_time();
+    while(1){
+        if(ledThreadFlag == true){
+            ledbar_time();
+        }
+    }
 }
 
 void init_ledbar_thread(void)
