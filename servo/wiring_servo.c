@@ -35,19 +35,20 @@ int servoMove(int op)
     switch (op)
     {
         case 1:
-                //softPwmWrite(BACK_SERVO, 0); // time_sleep(1);
+                softPwmWrite(BACK_SERVO, 0); 
+                time_sleep(1);
                 softPwmWrite(FRONT_SERVO, 10);
                 break; // upwards moving.  
         case 2:
-              //softPwmWrite(BACK_SERVO, 24); 
-                softPwmWrite(FRONT_SERVO, 16); //time_sleep(1); 
+                softPwmWrite(BACK_SERVO, 24); 
+                softPwmWrite(FRONT_SERVO, 16); time_sleep(1); 
                 break; // downward moving.  
         case 3: 
-                  softPwmWrite(RIGHT_SERVO, 8); //time_sleep(1);
-   //             softPwmWrite(LEFT_SERVO,12);
+                softPwmWrite(RIGHT_SERVO, 8); time_sleep(1);
+                softPwmWrite(LEFT_SERVO,12);
                 break; // leftward moving.  
         case 4:
-      //          softPwmWrite(LEFT_SERVO, 48); //time_sleep(1);
+                softPwmWrite(LEFT_SERVO, 48); time_sleep(1);
                 softPwmWrite(RIGHT_SERVO, 16); 
                 break; // rightward moving.            
     }

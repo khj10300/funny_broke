@@ -22,10 +22,6 @@ void getItem_1();
 void getItem_2();
 void getItem_3();
 
-void backFrom_1();
-void backFrom_2();
-void backFrom_3();
-
 int ChassisMove();
 void* ChassisThreadRun (void *);
 void init_chassis_thread();
